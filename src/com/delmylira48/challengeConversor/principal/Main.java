@@ -2,6 +2,7 @@ package com.delmylira48.challengeConversor.principal;
 
 import com.delmylira48.challengeConversor.domain.Conversor;
 import com.delmylira48.challengeConversor.domain.LlamadaAPI;
+import com.delmylira48.challengeConversor.domain.ManejoArchivo;
 import com.delmylira48.challengeConversor.domain.ManejoJson;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class Main {
             llamadaAPI = new LlamadaAPI(monedaOrigen);
             manejoJson = new ManejoJson(llamadaAPI.llamada());
             Conversor conversor = new Conversor(monedaDestino, valor, manejoJson.generarJson());
-            conversor.convertir();
+            listaDeConversiones.add(conversor.convertir());
 
             System.out.println("Presione Enter para continuar...");
             sc.nextLine();
@@ -79,6 +80,9 @@ public class Main {
                 break;
             }
         }
+
+        ManejoArchivo manejoArchivo= new ManejoArchivo(listaDeConversiones);
+        manejoArchivo.GenerarArchivo();
 
     }
 }
