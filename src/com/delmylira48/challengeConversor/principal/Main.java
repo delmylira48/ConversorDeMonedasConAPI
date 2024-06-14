@@ -4,25 +4,78 @@ import com.delmylira48.challengeConversor.domain.Conversor;
 import com.delmylira48.challengeConversor.domain.LlamadaAPI;
 import com.delmylira48.challengeConversor.domain.ManejoJson;
 
+import java.util.Scanner;
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Sea bienvenido/a al conversor de monedas\n" +
-                "1) Dolar --> Peso argentino\n" +
-                "2) Peso argentino --> Dolar\n" +
-                "3) Dolar --> Real brasileño\n" +
-                "4) Real brasileño --> Dolar\n" +
-                "5) Dolar --> Peso colombiano\n" +
-                "6) Peso colombiano --> Dolar\n" +
-                "7) Salir\n" +
-                "Elija una opción");
 
-        System.out.println("Ingrese el valor que desea convertir");
+        Scanner sc = new Scanner(System.in);
+        String monedaOrigen;
+        String monedaDestino;
+        Double valor;
 
-        System.out.println("El valor x [moneda] corresponde al valor final x [moneda]");
+        while (true) {
 
-        LlamadaAPI llamadaAPI = new LlamadaAPI("USD");
-        ManejoJson manejoJson= new ManejoJson(llamadaAPI.llamada());
-        Conversor conversor= new Conversor("ARS", 1000.0, manejoJson.generarJson());
-        conversor.convertir();
+            System.out.println("Sea bienvenido/a al conversor de monedas\n" +
+                    "Las monedas disponibles con las siguientes");
+
+            //LLAMADA PARA CONSEGUIR LOS CODIGOS DE LAS MONEDAS
+            LlamadaAPI llamadaAPI = new LlamadaAPI("USD");
+            ManejoJson manejoJson = new ManejoJson(llamadaAPI.llamada());
+            Set<String> listaDeMonedas = manejoJson.generarJson().getListaConversiones().keySet();
+
+            //IMPRIMIR LOS CODIGOS
+            int contador = 1;
+            for (String codigo : listaDeMonedas) {
+                if (contador % 20 == 0) {
+                    System.out.println(codigo + "    ");
+                } else {
+                    System.out.print(codigo + "    ");
+                }
+                contador++;
+            }
+            System.out.println();
+            System.out.println("Ingrese el código de la moneda base (De la que tiene conocimiento)");
+            monedaOrigen = sc.nextLine().toUpperCase();
+
+            System.out.println("Ingrese el código de la moneda a la que quiere convertir");
+            monedaDestino = sc.nextLine().toUpperCase();
+
+            if(!listaDeMonedas.contains(monedaOrigen) || !listaDeMonedas.contains(monedaDestino) ){
+                System.out.println("Se ha encontrado un codigo invalido");
+                System.out.println("Presione Enter para continuar...");
+                sc.nextLine();
+                continue;
+            }
+
+            try {
+                System.out.println("Ingrese el valor que desea convertir");
+                valor = Double.parseDouble(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Formato invalido");
+                System.out.println("Presione Enter para continuar...");
+                sc.nextLine();
+                continue;
+            }
+
+            llamadaAPI = new LlamadaAPI(monedaOrigen);
+            manejoJson = new ManejoJson(llamadaAPI.llamada());
+            Conversor conversor = new Conversor(monedaDestino, valor, manejoJson.generarJson());
+            conversor.convertir();
+
+            System.out.println("Presione Enter para continuar...");
+            sc.nextLine();
+
+            System.out.println("Desea continuar con otra conversión? (Y/N)");
+            String continuar =sc.nextLine();
+            if(continuar.equalsIgnoreCase("N")){
+                break;
+            } else if (!continuar.equalsIgnoreCase("Y")) {
+                System.out.println("Respuesta inválida, el programa terminará");
+                break;
+            }
+        }
+
     }
 }

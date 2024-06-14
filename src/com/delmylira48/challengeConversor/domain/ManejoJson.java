@@ -14,7 +14,6 @@ public class ManejoJson {
     }
 
     public Moneda generarJson(){
-        System.out.println(contenidoJson);
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
