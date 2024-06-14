@@ -1,5 +1,9 @@
 package com.delmylira48.challengeConversor.principal;
 
+import com.delmylira48.challengeConversor.domain.Conversor;
+import com.delmylira48.challengeConversor.domain.LlamadaAPI;
+import com.delmylira48.challengeConversor.domain.ManejoJson;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Sea bienvenido/a al conversor de monedas\n" +
@@ -15,5 +19,10 @@ public class Main {
         System.out.println("Ingrese el valor que desea convertir");
 
         System.out.println("El valor x [moneda] corresponde al valor final x [moneda]");
+
+        LlamadaAPI llamadaAPI = new LlamadaAPI("USD");
+        ManejoJson manejoJson= new ManejoJson(llamadaAPI.llamada());
+        Conversor conversor= new Conversor("ARS", 1000.0, manejoJson.generarJson());
+        conversor.convertir();
     }
 }

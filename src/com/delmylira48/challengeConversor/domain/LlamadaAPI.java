@@ -7,15 +7,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class LlamadaAPI {
-    private String moneda;
+    private String nombreMoneda;
 
     public LlamadaAPI(String moneda) {
-        this.moneda=moneda;
+        this.nombreMoneda =moneda;
     }
 
-    public void llamada(){
-        URI url = URI.create("https://v6.exchangerate-api.com/v6/9e1edbf9cbb6d9c3c3f43e7f/latest/"+ moneda);
-        String contenidoJson;
+    public String llamada(){
+        URI url = URI.create("https://v6.exchangerate-api.com/v6/9e1edbf9cbb6d9c3c3f43e7f/latest/"+ nombreMoneda);
+        String contenidoJson = "";
+
 
         try{
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -28,8 +29,13 @@ public class LlamadaAPI {
 
             contenidoJson = httpResponse.body();
 
+
+
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
+
+        return contenidoJson;
+
     }
 }
