@@ -15,7 +15,7 @@ public class Conversor {
         this.claseMoneda = claseMoneda;
     }
 
-    public void convertir(){
+    public String convertir(){
         Map<String, Double> listaConversiones= claseMoneda.getListaConversiones();
         Double resultado = null;
 
@@ -25,7 +25,9 @@ public class Conversor {
             resultado = valorMonedaDestino * valor;
         }
 
-        System.out.println("Conversión de "+ valor +" " +claseMoneda.getNombre() + " a "+ monedaDestino +" es igual a " + resultado);
+        String conversion="Conversión de "+ valor +" " +claseMoneda.getNombre() + " a "+ monedaDestino +" es igual a " + resultado;
+        System.out.println(conversion);
+        return conversion;
 
     }
 

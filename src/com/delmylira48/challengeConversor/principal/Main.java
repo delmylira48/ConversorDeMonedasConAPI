@@ -4,6 +4,8 @@ import com.delmylira48.challengeConversor.domain.Conversor;
 import com.delmylira48.challengeConversor.domain.LlamadaAPI;
 import com.delmylira48.challengeConversor.domain.ManejoJson;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class Main {
         String monedaOrigen;
         String monedaDestino;
         Double valor;
+        List<String> listaDeConversiones = new ArrayList<>();
 
         while (true) {
 
