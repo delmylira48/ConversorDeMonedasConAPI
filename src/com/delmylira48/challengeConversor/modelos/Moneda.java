@@ -7,14 +7,17 @@ import java.util.Map;
 public class Moneda {
     private Map<String, Double> listaConversiones;
     private String nombre;
-    private Double valorBase;
 
     public Moneda(MonedaDTO monedaDTO) {
         this.listaConversiones = monedaDTO.conversion_rates();
         this.nombre = monedaDTO.base_code();
     }
 
-    public Moneda(Double valorBase) {
-        this.valorBase = valorBase;
+    public Map<String, Double> getListaConversiones() {
+        return listaConversiones;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
